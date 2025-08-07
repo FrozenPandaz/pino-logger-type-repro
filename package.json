@@ -1,18 +1,14 @@
 {
   "name": "pino-logger-type-repro",
   "version": "1.0.0",
-  "description": "Reproduction case for pino breaking change in logger types",
-  "main": "index.js",
+  "description": "Minimal reproduction: BaseLogger.child() method missing in pino types",
   "scripts": {
-    "test": "tsc --noEmit && node index.js",
-    "test-old": "npm install pino@9.6.0 && tsc --noEmit",
-    "test-new": "npm install pino@9.8.0 && tsc --noEmit"
+    "reproduce": "npx tsc --noEmit simple.ts"
   },
   "dependencies": {
     "pino": "^9.8.0"
   },
   "devDependencies": {
-    "@types/node": "^18.19.0",
     "typescript": "^5.0.0"
   }
 }
