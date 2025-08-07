@@ -1,14 +1,18 @@
 {
   "name": "pino-logger-type-repro",
   "version": "1.0.0",
-  "description": "Minimal reproduction: BaseLogger.child() method missing in pino types",
+  "description": "Reproduction showing pino version override breaking FastifyBaseLogger",
   "scripts": {
-    "reproduce": "npx tsc --noEmit simple.ts"
+    "reproduce": "npx tsc --noEmit fastify-override-test.ts"
   },
   "dependencies": {
-    "pino": "^9.8.0"
+    "fastify": "^5.4.0",
+    "pino": "9.8.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
+  },
+  "overrides": {
+    "pino": "9.8.0"
   }
 }

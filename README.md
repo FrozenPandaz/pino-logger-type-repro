@@ -1,10 +1,10 @@
-# Pino BaseLogger.child() Method Missing
+# Pino BaseLogger Breaking Change Reproduction
 
-Minimal reproduction showing `child()` method is missing from `pino.BaseLogger` type definition.
+Demonstrates breaking change in pino v9.8.0 where logging methods were removed from `BaseLogger` interface.
 
 ## Issue
 
-In pino >= 9.7.0, the `child()` method is no longer available on the `BaseLogger` type, causing TypeScript errors.
+In pino v9.8.0, the logging methods (`error`, `info`, `warn`, etc.) were removed from the `BaseLogger` type definition, breaking libraries that extend `BaseLogger`.
 
 ## Reproduction
 
@@ -13,11 +13,30 @@ npm install
 npm run reproduce
 ```
 
-**Error:**
+## Results
+
+**✅ With pino@9.7.0:** Works correctly
+**❌ With pino@9.8.0:** TypeScript errors:
 ```
-simple.ts(8,26): error TS2339: Property 'child' does not exist on type 'BaseLogger'.
+Property 'error' does not exist on type 'FastifyBaseLogger'.
+Property 'info' does not exist on type 'FastifyBaseLogger'.
 ```
 
 ## Impact
 
-This breaks libraries that extend `BaseLogger` and expect the `child()` method to be available, such as Fastify's `FastifyBaseLogger`.
+This breaks **Fastify's FastifyBaseLogger** which extends `pino.BaseLogger`:
+
+```typescript
+export interface FastifyBaseLogger extends pino.BaseLogger {
+  child(bindings: Bindings, options?: ChildLoggerOptions): FastifyBaseLogger;
+}
+```
+
+When using version overrides (common in monorepos), projects upgrading to pino 9.8.0 get TypeScript errors because expected logging methods are missing from the BaseLogger interface.
+
+## Test Different Versions
+
+Change the pino version in `package.json` and `overrides` section, then run:
+```bash
+npm install && npm run reproduce
+```
