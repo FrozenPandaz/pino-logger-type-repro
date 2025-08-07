@@ -15,7 +15,7 @@ npm run reproduce
 
 **Error:**
 ```
-simple.ts(7,32): error TS2339: Property 'child' does not exist on type 'BaseLogger'.
+simple.ts(8,26): error TS2339: Property 'child' does not exist on type 'BaseLogger'.
 ```
 
 ## Impact
